@@ -13,8 +13,19 @@
             <span th:text="${album.artist}"></span>
             <span th:text="${album.songCount}"></span>
             <span th:text="${album.seconds}"></span>
-            <span th:text="${album.imageUrl}"></span>
+            <img th:src="${album.imageUrl}" alt="image">
         </li>
     </ul>
+
+    <form action="/albums" method="POST">
+        <h2>Add new album</h2>
+        Title: <input type="text" name="title">
+        Artist: <input type="text" name="Artist">
+        Song Count: <input type="text" name="songCount">
+        Seconds: <input type="text" name="seconds">
+        ImageUrl: <input type="text" name="imageUrl">
+        <input type="submit">
+    </form>
+
 </body>
 </html>
