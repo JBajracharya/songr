@@ -13,9 +13,14 @@ import java.util.List;
 
 @Controller
 public class HomeController {
-
+    // instance variable to hold our repository
+    // connects to the database
+    // have the methods to do CRUD on the db for just Emotions
     @Autowired
     AlbumRepository albumRepository;
+
+    @Autowired
+    SongRepository songRepository;
 
     @GetMapping("/hello")
     public String getHome() {
@@ -43,12 +48,27 @@ public class HomeController {
     }
 
     @PostMapping("/albums")
-    public RedirectView postAlbums(String title, String artist, int songCount, int seconds, String imageUrl){
-        Album newAlbum = new Album(title, artist, songCount, seconds, imageUrl);
+    public RedirectView postAlbums(String title, String artist, int songCount, int length, String imageUrl){
+        Album newAlbum = new Album(title, artist, songCount, length, imageUrl);
         System.out.println("newAlbum.getTitle() = " + newAlbum.getTitle() + title);
         albumRepository.save(newAlbum);
 
         return new RedirectView("/albums");
     }
+
+    //Add songs to album
+    @PostMapping("/songs")
+    public String addSongs(long albumId, String songTitle, int length, int trackNumber) {
+        Album myAlbum = albumRepository.getOne(albumId);
+
+        Song newSong = new Song(songTitle, length, trackNumber, myAlbum);
+
+        songRepository.save(newSong);
+
+        return "albumSong";
+
+    }
+
+
 
 }

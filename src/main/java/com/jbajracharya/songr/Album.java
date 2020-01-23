@@ -1,7 +1,7 @@
 package com.jbajracharya.songr;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
+import java.util.List;
 
 //make a table for the class
 @Entity
@@ -11,12 +11,16 @@ public class Album {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    public long id;
+
+    @OneToMany(mappedBy = "album")
+    public List<Song> songs;
+
 
     private String title;
     private String artist;
     private int songCount;
-    private int seconds;
+    private int length;
     private String imageUrl;
 
 
@@ -33,8 +37,8 @@ public class Album {
         return songCount;
     }
 
-    public int getSeconds() {
-        return seconds;
+    public int getLength() {
+        return length;
     }
 
     public String getImageUrl() {
@@ -45,7 +49,7 @@ public class Album {
         this.title = title;
         this.artist = artist;
         this.songCount = songCount;
-        this.seconds = seconds;
+        this.length = seconds;
         this.imageUrl = imageUrl;
     }
 
@@ -65,8 +69,8 @@ public class Album {
         this.songCount = songCount;
     }
 
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
+    public void setLength(int seconds) {
+        this.length = seconds;
     }
 
     public void setImageUrl(String imageUrl) {
