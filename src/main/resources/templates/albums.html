@@ -12,8 +12,18 @@
             <span th:text="${album.title}"></span>
             <span th:text="${album.artist}"></span>
             <span th:text="${album.songCount}"></span>
-            <span th:text="${album.seconds}"></span>
-            <img th:src="${album.imageUrl}" alt="image">
+            <span th:text="${album.length}"></span>
+            <a href="albumSong.html"><img th:src="${album.imageUrl}" alt="image"></a>
+
+           //Adding Songs
+            <form action="/songs" method="POST">
+                <h2>Add Songs</h2>
+                <input type="hidden" th:value="${album.id}" name="albumId">
+                Song Title: <input type="text" name="songTitle">
+                Length: <input type="text" name="length">
+                Track Number: <input type="text" name="trackNumber">
+                <input type="submit" value="Add Song">
+            </form>
         </li>
     </ul>
 
@@ -22,7 +32,7 @@
         Title: <input type="text" name="title">
         Artist: <input type="text" name="Artist">
         Song Count: <input type="text" name="songCount">
-        Seconds: <input type="text" name="seconds">
+        Seconds: <input type="text" name="length">
         ImageUrl: <input type="text" name="imageUrl">
         <input type="submit">
     </form>
