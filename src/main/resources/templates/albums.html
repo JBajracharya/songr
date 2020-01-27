@@ -3,39 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link href="/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1>Pick an Album</h1>
-    <ul>
-        <li th:each="album : ${albumArray}">
-            <span th:text="${album.title}"></span>
-            <span th:text="${album.artist}"></span>
-            <span th:text="${album.songCount}"></span>
-            <span th:text="${album.length}"></span>
-            <a href="albumSong.html"><img th:src="${album.imageUrl}" alt="image"></a>
+<form action="/albums" method="POST">
+    <h2>Add new album</h2>
+    Title: <input type="text" name="title">
+    Artist: <input type="text" name="Artist">
+    Song Count: <input type="text" name="songCount">
+    Seconds: <input type="text" name="length">
+    ImageUrl: <input type="text" name="imageUrl">
+    <input type="submit">
+</form>
+<h2>My Albums</h2>
+<ul>
+    <li th:each="album : ${albumArray}">
+        <span th:text="${album.title}"></span>
+        <span th:text="${album.artist}"></span>
+        <span th:text="${album.songCount}"></span>
+        <span th:text="${album.length}"></span>
+<!--        source: https://stackoverflow.com/questions/33753975/thymeleaf-using-path-variables-to-thhref-->
+        <a th:href="@{/songs/{id}(id=${album.id})}"><img th:src="${album.imageUrl}" alt="image"></a>
 
-           //Adding Songs
-            <form action="/songs" method="POST">
-                <h2>Add Songs</h2>
-                <input type="hidden" th:value="${album.id}" name="albumId">
-                Song Title: <input type="text" name="songTitle">
-                Length: <input type="text" name="length">
-                Track Number: <input type="text" name="trackNumber">
-                <input type="submit" value="Add Song">
-            </form>
-        </li>
-    </ul>
-
-    <form action="/albums" method="POST">
-        <h2>Add new album</h2>
-        Title: <input type="text" name="title">
-        Artist: <input type="text" name="Artist">
-        Song Count: <input type="text" name="songCount">
-        Seconds: <input type="text" name="length">
-        ImageUrl: <input type="text" name="imageUrl">
-        <input type="submit">
-    </form>
-
+        <!--           Adding Songs-->
+<!--        <form action="/songs" method="POST">-->
+<!--            <h2>Add Songs</h2>-->
+<!--            <input type="hidden" th:value="${album.id}" name="albumId">-->
+<!--            Song Title: <input type="text" name="songTitle">-->
+<!--            Length: <input type="text" name="length">-->
+<!--            Track Number: <input type="text" name="trackNumber">-->
+<!--            <input type="submit" value="Add Song">-->
+<!--        </form>-->
+    </li>
+</ul>
 </body>
 </html>

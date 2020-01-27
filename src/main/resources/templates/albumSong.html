@@ -6,16 +6,33 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+
 </head>
 <body>
-    <h1>Song Details</h1>
-<ul>
-<!--    <li th:each="song : ${album.songs}">-->
-<!--        <span th:text="${song.toString()}"></span>-->
+    <!--           Adding Songs-->
+    <form action="/songs" method="POST">
+        <h2>Add Songs</h2>
+        <input type="hidden" th:value="${album.id}" name="albumId">
+        Song Title: <input type="text" name="songTitle">
+        Length: <input type="text" name="length">
+        Track Number: <input type="text" name="trackNumber">
+        <input type="submit" value="Add Song">
+    </form>
+    <h1>Song list from album: <span th:text="${album.title}"></span></h1>
+    <ul>
+        <li th:each="song, iterator : ${album.songs}">
 
-<!--        <span th:text="${album.title}"></span>-->
+            <h2><span th:text="${iterator.index + 1}"></span><span th:text="${song.toString()}"></span></h2>
+            <!--    form has only two methods post and get-->
+            <form action="/songs/delete" method="POST">
+                <input type="hidden" name="id" th:value="${song.id}">
+                <input type="hidden" name="albumId" th:value="${album.id}">
+                <span><input type="submit" value="Delete"></span>
+            </form>
+        </li>
 
-<!--    </li>-->
-</ul>
+
+    </ul>
 </body>
 </html>
