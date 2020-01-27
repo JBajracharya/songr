@@ -1,6 +1,5 @@
 package com.jbajracharya.songr;
 
-import org.apache.tomcat.util.bcel.classfile.EnumElementValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.jws.WebParam;
 import java.util.List;
 
 @Controller
@@ -56,17 +56,34 @@ public class HomeController {
         return new RedirectView("/albums");
     }
 
-    //Add songs to album
-    @PostMapping("/songs")
-    public String addSongs(long albumId, String songTitle, int length, int trackNumber) {
-        Album myAlbum = albumRepository.getOne(albumId);
-
-        Song newSong = new Song(songTitle, length, trackNumber, myAlbum);
-
-        songRepository.save(newSong);
-
+    //    get a list of songs without adding new song when refreshing the page
+    @GetMapping("/songs/{albumId}")
+    public String displaySongs(@PathVariable long albumId, Model thymeLeafVariables){
+        Album myAlbum = albumRepository.findById(albumId).get();
+        thymeLeafVariables.addAttribute("album", myAlbum);
         return "albumSong";
 
+    }
+
+    //Add songs to album
+    @PostMapping("/songs")
+    public RedirectView addSongs(long albumId, String songTitle, int length, int trackNumber, Model thymeLeafVariable) {
+        Album myAlbum = albumRepository.findById(albumId).get();
+        Song newSong = new Song(songTitle, length, trackNumber, myAlbum);
+        songRepository.save(newSong);
+
+        thymeLeafVariable.addAttribute("album", myAlbum);
+
+        return new RedirectView("/songs/" + albumId);
+
+    }
+
+    //Delete song from the album
+    //parameter name should match form name. form value sits on form body.
+    @PostMapping("/songs/delete")
+    public RedirectView deleteASong(long id, long albumId) {
+        songRepository.deleteById(id);
+        return new RedirectView("/songs/" + albumId);
     }
 
 
